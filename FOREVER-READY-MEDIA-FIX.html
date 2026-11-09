@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOREVER — Watch Together</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#070510;--panel:#100a20;--panel2:#180d2c;--line:#382052;--purple:#9b25ff;--pink:#ed19dc;--text:#f8efff;--muted:#b5a3c8;--glow:0 0 18px #9b25ff66,0 0 40px #ed19dc22}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 10%,#321052 0,transparent 32%),radial-gradient(ellipse at 85% 85%,#210b39 0,transparent 32%),var(--bg);color:var(--text);font-family:'Cairo',system-ui,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;color:inherit;border:1px solid var(--line);background:#1a0d2d;border-radius:13px;padding:11px 16px;transition:.2s}button:hover{border-color:#d15aff;box-shadow:var(--glow);transform:translateY(-1px)}button.primary{background:linear-gradient(110deg,#7200ed,#bd14d7);border-color:#d65aff;box-shadow:var(--glow);font-weight:800}button.ghost{background:#11091e}button.small{padding:7px 11px;font-size:13px}
+input{background:#090613;border:1px solid #493064;color:white;border-radius:12px;padding:12px 14px;outline:none;width:100%}input:focus{border-color:#bd4aff;box-shadow:0 0 0 3px #a020ff22}
+.hidden{display:none!important}.muted{color:var(--muted)}.tiny{font-size:12px;color:var(--muted)}.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:1px;font-size:22px}.logo{width:44px;height:44px;border:2px solid #c56aff;border-radius:14px;display:grid;place-items:center;color:#e5a6ff;font-size:25px;box-shadow:var(--glow);transform:rotate(-5deg)}
+.topbar{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid #28143b;background:#080511cc;backdrop-filter:blur(16px);position:sticky;top:0;z-index:5}
+.wrap{max-width:1320px;margin:auto;padding:28px}.screen{min-height:calc(100vh - 74px)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;min-height:calc(100vh - 130px)}
+.hero-copy h1{font-size:clamp(38px,5vw,68px);line-height:1.16;margin:14px 0;background:linear-gradient(90deg,#fff,#d78bff,#f52be3);-webkit-background-clip:text;color:transparent}
+.hero-copy p{font-size:18px;line-height:1.9;color:#d5c4e4;max-width:590px}.eyebrow{color:#d68aff;font-weight:800;letter-spacing:2px}
+.hero-art{min-height:430px;border:1px solid #56277b;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(145deg,#260d43,#10091f 58%,#2a0d3b);box-shadow:var(--glow);display:grid;place-items:center}
+.hero-art:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:#9d22ff55;filter:blur(70px);top:10%;left:20%}
+.orbit{width:250px;height:250px;border:1px solid #c36cff88;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 60px #9c22ff55;position:relative}
+.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid #b64aff55;border-radius:50%;inset:25px}.orbit:after{inset:-25px;border-style:dashed;animation:spin 30s linear infinite}
+.playmark{font-size:92px;color:#efbaff;text-shadow:0 0 30px #c52dff}
+.float{position:absolute;background:#160b27dd;border:1px solid #6e3b91;padding:12px 16px;border-radius:14px;box-shadow:var(--glow)}
+.float.one{top:14%;right:8%}.float.two{bottom:16%;left:7%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.auth-card{max-width:430px;margin:35px auto;padding:28px;background:#11091f;border:1px solid #4a2864;border-radius:22px;box-shadow:var(--glow)}
+.auth-card h2{margin:0 0 6px}.stack{display:grid;gap:12px}.divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;margin:16px 0}.divider:before,.divider:after{content:"";height:1px;background:#38244c;flex:1}
+.dashboard-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:25px}.dashboard-head h1{margin:0;font-size:34px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.panel{background:linear-gradient(145deg,#160d27,#0d0818);border:1px solid #39214f;border-radius:20px;padding:20px;box-shadow:0 10px 35px #0005}
+.action-card{min-height:180px;display:flex;flex-direction:column;justify-content:space-between}.action-icon{font-size:30px;color:#d88aff}.room-card{display:flex;justify-content:space-between;align-items:center;gap:15px}.room-list{display:grid;gap:12px;margin-top:18px}.pill{border:1px solid #6c3990;background:#241037;color:#e8caff;border-radius:99px;padding:4px 10px;font-size:12px}
+.room-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px}.room-main{min-width:0}.room-side{display:grid;gap:16px;align-content:start}.room-code{display:flex;gap:10px;align-items:center;color:#e8caff}.video-shell{background:#020106;border:1px solid #60318a;border-radius:18px;overflow:hidden;box-shadow:var(--glow);position:relative}
+.video-stage{height:clamp(260px,48vw,500px);display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 35%,#553078 0,#211133 36%,#080510 76%)}
+.video-stage:before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:#f2c5ff22;filter:blur(3px);top:-130px}
+.video-placeholder{text-align:center;z-index:1}.video-placeholder .bigplay{font-size:72px;color:#f0c5ff;text-shadow:0 0 30px #bd38ff}
+.video-placeholder h2{margin:0}.video-controls{display:flex;align-items:center;gap:12px;padding:12px;background:#080611}.progress{height:5px;background:#3b3047;border-radius:9px;flex:1;overflow:hidden}.progress span{display:block;width:37%;height:100%;background:linear-gradient(90deg,#8a20ff,#f321dd)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:16px auto;max-width:760px;padding:10px 14px;border:1px solid #382052;border-radius:18px;background:#100a20aa}.toolbar button{flex:0 1 132px;min-width:112px;min-height:62px}.toolbar button.active{border-color:#e54cff;box-shadow:var(--glow);color:#f3baff}
+.chat{height:360px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:10px 0}.msg{max-width:88%;padding:9px 12px;border-radius:14px;background:#25143a;font-size:13px}.msg.me{align-self:flex-start;background:#4d1470}.msg .who{font-size:11px;color:#d9a9ff;margin-bottom:3px}.chat-form{display:flex;gap:8px;border-top:1px solid #38214e;padding-top:12px}.chat-form input{flex:1}.member{display:flex;align-items:center;gap:10px;padding:8px 0}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#a62bff,#ed25c7);font-weight:800}
+.modal-back{position:fixed;inset:0;background:#030108c9;backdrop-filter:blur(8px);display:grid;place-items:center;z-index:10;padding:20px}.modal{width:min(460px,100%);background:#130a21;border:1px solid #74409b;border-radius:22px;padding:24px;box-shadow:var(--glow)}.modal h2{margin-top:0}.modal-actions{display:flex;gap:10px;margin-top:18px}.modal-actions>*{flex:1}
+#modalHost{pointer-events:none}#modalHost:not(:empty){pointer-events:auto}#modalHost:empty{display:none;pointer-events:none}.toast{pointer-events:none;position:fixed;bottom:22px;left:22px;background:#28113d;border:1px solid #b74cff;border-radius:12px;padding:12px 18px;box-shadow:var(--glow);z-index:30;animation:rise .25s ease}@keyframes rise{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hero-art{min-height:300px}.grid{grid-template-columns:1fr 1fr}.room-layout{grid-template-columns:1fr}.room-side{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.topbar{padding:0 14px}.wrap{padding:18px}.grid{grid-template-columns:1fr}.room-side{grid-template-columns:1fr}.dashboard-head{align-items:start;flex-direction:column}.brand{font-size:18px}.hero-copy p{font-size:16px}}
+
+/* FOREVER MUSIC */
+.music-panel{border:1px solid #66338c;background:linear-gradient(145deg,#1b0d2c,#10091c);border-radius:20px;padding:15px;box-shadow:0 0 22px #9b25ff20;overflow:hidden}
+.music-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.music-brand{font-weight:900;letter-spacing:.5px}.music-tag{font-size:11px;border:1px solid #75439a;border-radius:30px;padding:4px 9px;color:#e7c9ff}
+.music-player-frame{width:100%;height:170px;border:0;border-radius:13px;background:#080511;display:block;overflow:hidden}
+.music-empty{height:170px;border-radius:13px;background:radial-gradient(circle at 30% 20%,#7627a0,#180d29 65%);display:grid;place-items:center;text-align:center;color:#f4dfff}
+.music-empty .note{font-size:45px}.music-now{font-weight:800;margin:10px 0 2px;font-size:14px;overflow-wrap:anywhere}.music-sub{font-size:11px;color:#bca8d0;margin-bottom:12px}
+.music-controls{display:flex;gap:8px;justify-content:center;margin:10px 0}.music-controls button{min-width:42px}.music-controls .music-main{background:linear-gradient(110deg,#8b14ef,#d11bcf);border:0;border-radius:50%;width:48px;height:48px;font-size:18px}
+.music-add{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:10px}.music-add input{min-width:0;font-size:12px;padding:10px}.music-add button{padding:8px 12px;font-size:12px}
+.music-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.music-actions button{font-size:11px;padding:8px}.music-list{display:grid;gap:6px;margin-top:10px;max-height:140px;overflow:auto}.music-item{display:flex;align-items:center;gap:7px;border:1px solid #55306f;border-radius:11px;padding:7px;font-size:11px}.music-item.active{border-color:#d052ff;background:#351344}.music-item .song-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.music-item button{padding:4px 8px;font-size:11px}.music-note{font-size:10px;color:#b9a5ce;line-height:1.7;margin-top:9px}
+@media(max-width:900px){.music-player-frame,.music-empty{height:190px}}
+
+
+.remote-media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px;padding:10px;background:#080511;min-width:0;width:100%;box-sizing:border-box}
+.remote-media-card{min-width:0;width:100%;box-sizing:border-box;border:1px solid #60318a;border-radius:13px;overflow:hidden;background:#10091c;padding:8px}
+.remote-media-card video{display:block;width:100%;height:auto;min-height:180px;max-height:70vh;aspect-ratio:16/9;object-fit:contain;background:#000;border-radius:8px}
+@media(max-width:600px){.remote-media-grid{grid-template-columns:minmax(0,1fr);padding:6px}.remote-media-card{padding:6px}.remote-media-card video{min-height:200px;max-height:65vh}}
+.remote-media-card audio{width:100%;margin-top:8px}
+.remote-media-title{font-size:12px;color:#e8caff;margin:0 0 7px}
+.remote-media-empty{padding:8px 12px;color:#bca8d0;font-size:12px;text-align:center}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">▶</div><div>FOREVER<div class="tiny" style="letter-spacing:2px">WATCH TOGETHER</div></div></div>
+  <div style="display:flex;gap:9px;align-items:center"><span class="tiny" id="userLabel">مساحة تجمعنا ♡</span><button class="small ghost" onclick="toggleLang()">عربي / EN</button><button class="small ghost" onclick="foreverOpenSettings()">⚙</button></div>
+</header>
+
+<main>
+<section id="welcome" class="screen wrap">
+ <div class="hero">
+  <div class="hero-copy">
+   <div class="eyebrow">✦ WATCH TOGETHER, STAY FOREVER ✦</div>
+   <h1>مشاهدة أقرب،<br>حتى لو بينكم مسافات.</h1>
+   <p>اجمع أصحابك في مكان واحد. أنشئ غرفة، شارك رمزها، وشاهدوا الفيديوهات مع دردشة مباشرة وأجواء بنفسجية لا تُنسى.</p>
+   <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:25px"><button class="primary" onclick="showAuth()">ابدأ التجربة ←</button><button class="ghost" onclick="showAuth(true)">الدخول كضيف</button></div>
+   <div class="tiny" style="margin-top:20px">✧ غرف عامة وخاصة · دردشة · مشاركة شاشة وصوت مباشر</div>
+  </div>
+  <div class="hero-art"><div class="orbit"><div class="playmark">▷</div></div><div class="float one">✦ غرفة أصدقائك بانتظارك</div><div class="float two">♡ شاهدوا معاً من أي مكان</div></div>
+ </div>
+</section>
+
+<section id="auth" class="screen wrap hidden">
+ <div class="auth-card">
+  <div class="eyebrow">FOREVER / JOIN THE ROOM</div><h2>أهلاً بك في FOREVER ✨</h2><p class="muted">اختر اسمك وابدأ لحظات المشاهدة الجماعية.</p>
+  <div class="stack"><label class="tiny">اسم العرض</label><input id="displayName" placeholder="اكتب اسمك هنا" maxlength="24"><button class="primary" onclick="enterApp()">الدخول كضيف ←</button><button class="ghost" onclick="toast('تسجيل Google يحتاج إعداد OAuth وربط مشروعك')">◉ المتابعة باستخدام Google</button><button class="small ghost" onclick="go('welcome')">رجوع</button></div>
+  <p class="tiny">نسخة أولية: الدخول كضيف يعمل محلياً داخل هذا النموذج. تسجيل Google يحتاج إعداد OAuth.</p>
+ </div>
+</section>
+
+<section id="dashboard" class="screen wrap hidden">
+ <div class="dashboard-head"><div><div class="eyebrow">YOUR WATCH SPACE</div><h1>خلّينا نشاهد معاً <span style="color:#d66aff">♡</span></h1><div class="muted">مرحباً <b id="helloName">صديقنا</b>، اختر كيف تحب تبدأ.</div></div><button class="ghost" onclick="go('welcome')">تسجيل الخروج ↩</button></div>
+ <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+  <div class="panel action-card"><div><div class="action-icon">✦</div><h2>إنشاء غرفة جديدة</h2><p class="muted">اختَر إذا بدك الغرفة عامة أو خاصة، وسمّيها قبل ما تدخل.</p></div><button class="primary" data-forever-action="create-room">إنشاء غرفة ＋</button></div>
+  <div class="panel action-card"><div><div class="action-icon">⌕</div><h2>الانضمام إلى غرفة</h2><p class="muted">معك رمز دعوة؟ أدخله وانضم إلى أصحابك.</p></div><button class="ghost" data-forever-action="open-join">إدخال رمز الغرفة ←</button></div>
+ </div>
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-top:32px"><div><h2 style="margin:0">الغرف العامة</h2><div class="tiny">الغرف المفتوحة التي يمكن الانضمام إليها</div></div><span class="pill">🌐 استكشف الغرف</span></div>
+ <div id="publicRooms" class="room-list"></div>
+</section>
+
+<section id="room" class="screen wrap hidden">
+ <div class="dashboard-head"><div><div class="eyebrow">FOREVER / WATCH PARTY</div><h1 id="roomTitle">غرفة المشاهدة</h1><div class="room-code">رمز الغرفة: <b id="roomCode">000000</b> <button class="small" onclick="copyCode()">نسخ الرمز ⧉</button><span id="roomType" class="pill">خاصة</span></div></div><button class="ghost" onclick="leaveRoom()">مغادرة الغرفة ↩</button></div>
+ <div class="room-layout">
+  <div class="room-main">
+   <div class="video-shell"><div class="video-stage" id="videoStage"><div class="video-placeholder"><div class="bigplay">▷</div><h2 id="videoTitle">مساحة المشاهدة الخاصة بك</h2><p class="muted">أضف رابط فيديو أو شارك الشاشة مع الموجودين بالغرفة</p></div></div><div id="remoteMediaGrid" class="remote-media-grid" aria-live="polite"></div><div class="video-controls"><button class="small" onclick="togglePlay()">▶ / ❚❚</button><span class="tiny">00:00</span><div class="progress"><span></span></div><span class="tiny">00:00</span><button class="small" onclick="toggleFullscreen()">⛶</button></div></div>
+   <div class="toolbar"><button id="muteBtn" onclick="toggleControl(this)">♬<br><span class="tiny">الصوت</span></button><button id="micBtn" onclick="toggleControl(this)">🎙<br><span class="tiny">المايك</span></button><button onclick="shareScreen()">▣<br><span class="tiny">مشاركة الشاشة</span></button><button onclick="openVideo()">＋<br><span class="tiny">إضافة فيديو</span></button><button onclick="toast('إعدادات الغرفة قيد التطوير')">⚙<br><span class="tiny">الإعدادات</span></button></div>
+   <div class="panel chat"><h3 style="margin:0">محادثة الغرفة 💬</h3><div class="messages" id="messages"><div class="msg"><div class="who">FOREVER</div>أهلاً بالجميع! استمتعوا بالمشاهدة ✨</div></div><form class="chat-form" onsubmit="sendMessage(event)"><input id="chatInput" placeholder="اكتب رسالة..." maxlength="300"><button class="primary">➤</button></form></div>
+  </div>
+  <aside class="room-side">
+   <div class="music-panel">
+    <div class="music-head"><span class="music-tag">PARTY ♫</span><span class="music-brand">FOREVER MUSIC</span></div>
+    <div id="musicPlayerHost"><div class="music-empty"><div><div class="note">♫</div><b>أضف أغنيتك من YouTube أو MP3</b></div></div></div>
+    <div id="musicNow" class="music-now">لا توجد أغنية حالياً</div><div id="musicStatus" class="music-sub">YouTube · FOREVER MUSIC</div>
+    <div class="music-controls"><button onclick="musicNext()" title="التالي">⏭</button><button class="music-main" onclick="musicToggle()" title="تشغيل / إيقاف">▶</button><button onclick="musicPrev()" title="السابق">⏮</button></div>
+    <div class="music-add"><input id="musicUrl" placeholder="الصق رابط YouTube أو MP3 هنا..." onkeydown="if(event.key==='Enter')musicAdd()"><button class="primary" onclick="musicAdd()">＋ إضافة</button></div>
+    <div class="music-actions"><button onclick="musicClear()">مسح القائمة</button><button onclick="musicMute()">🔊 الصوت</button></div>
+    <div id="musicQueue" class="music-list"></div>
+    <div class="music-note">يدعم روابط YouTube وروابط MP3 المباشرة. تتم مزامنة قائمة التشغيل وحالة التشغيل عبر Supabase. قد يحتاج كل جهاز إلى ضغطة تشغيل أولى بسبب قيود المتصفح.</div>
+   </div>
+   <div class="panel"><h3 style="margin-top:0">أعضاء الغرفة <span class="pill" id="memberCount">1</span></h3><div id="members"><div class="member"><div class="avatar">أ</div><div><b id="memberName">أنت</b><div class="tiny">مضيف الغرفة</div></div></div></div></div><div class="panel"><h3 style="margin-top:0">معلومات الغرفة</h3><p class="tiny">نوع الغرفة</p><b id="infoType">خاصة</b><p class="tiny" style="margin-top:16px">شارك الرمز مع أصدقائك ليدخلوا معك.</p><button class="primary" style="width:100%" onclick="copyCode()">نسخ رمز الدعوة ⧉</button></div></aside>
+ </div>
+</section>
+</main>
+
+<div id="modalHost"></div><div id="toastHost"></div>
+<script>
+let currentUser='ضيف', currentRoom=null, isPlaying=false, isMuted=false, isMic=false, micStream=null, lang='ar';
+let rooms=[{code:'482739',type:'public',name:'جلسة أفلام ممتعة',host:'FOREVER',members:2}];
+const $=id=>document.getElementById(id);
+function go(id){
+  const host=$('modalHost');
+  if(host) host.innerHTML='';
+  document.querySelectorAll('.modal-back').forEach(el=>el.remove());
+  ['welcome','auth','dashboard','room'].forEach(x=>{
+    const screen=$(x);
+    if(screen) screen.classList.add('hidden');
+  });
+  const target=$(id);
+  if(!target){
+    console.error('FOREVER: الشاشة غير موجودة:', id);
+    toast('تعذر فتح الصفحة. حدّث الموقع وحاول مجدداً.');
+    return;
+  }
+  target.classList.remove('hidden');
+  if(id==='dashboard'){
+    if(host) host.innerHTML='';
+    target.style.pointerEvents='auto';
+    target.style.visibility='visible';
+  }
+  window.scrollTo({top:0,behavior:'auto'});
+}
+
+function showAuth(guest=false){go('auth');if(guest){$('displayName').value='ضيف';$('displayName').focus()}}
+function enterApp(){currentUser=$('displayName').value.trim()||'ضيف';foreverPrepareJoinAudio();$('userLabel').textContent='مرحباً، '+currentUser;$('helloName').textContent=currentUser;$('memberName').textContent=currentUser;renderRooms();go('dashboard')}
+function code6(){return String(Math.floor(100000+Math.random()*900000))}
+function openCreateRoom(){
+  modal(`<h2>إنشاء غرفة جديدة ✨</h2><p class="muted">جهّز غرفتك قبل الدخول إليها.</p>
+    <label class="tiny" for="newRoomName">اسم الغرفة</label><input id="newRoomName" maxlength="32" placeholder="مثلاً: سهرة أفلام مع الشباب" value="غرفة ${escapeHtml(currentUser)}">
+    <label class="tiny" for="newRoomType" style="display:block;margin-top:14px">خصوصية الغرفة</label>
+    <select id="newRoomType" style="width:100%;padding:12px;border-radius:12px;background:#090613;color:white;border:1px solid #493064;font:inherit"><option value="public">🌐 عامة — تظهر في قائمة الغرف ويقدر الكل ينضم</option><option value="private">🔒 خاصة — ما بتظهر بالقائمة والدخول برمز</option></select>
+    <p class="tiny" style="margin-top:10px">الغرفة الخاصة إلها رمز دعوة من 6 أرقام بتقدر تشاركه مع أصحابك.</p>
+    <div class="modal-actions"><button class="primary" onclick="createRoomFromModal()">إنشاء ودخول الغرفة</button><button class="ghost" onclick="closeModal()">إلغاء</button></div>`);
+  setTimeout(()=>{const field=$('newRoomName');if(field){field.focus();field.select()}},0);
+}
+function createRoomFromModal(){
+  const name=($('newRoomName')?.value||'').trim();
+  const type=$('newRoomType')?.value||'public';
+  if(!name){toast('اكتب اسم الغرفة أولاً');$('newRoomName')?.focus();return}
+  createRoom(type,name);
+}
+function createRoom(type='public',name=''){
+  if(type!=='public' && type!=='private') type='public';
+  const r={code:code6(),type,name:(name||('غرفة '+currentUser)).slice(0,32),host:currentUser,members:1,createdAt:Date.now()};
+  rooms.unshift(r);
+  currentRoom=r;
+  closeModal();
+  renderRooms();
+  openRoom();
+}
+function ensureRoomElement(id, tag='div', parentId='room'){
+  let el=$(id);
+  if(el) return el;
+  const parent=$(parentId);
+  if(!parent){
+    console.error('FOREVER: العنصر الأب غير موجود:', parentId, 'لإنشاء', id);
+    return null;
+  }
+  el=document.createElement(tag);
+  el.id=id;
+  parent.appendChild(el);
+  console.warn('FOREVER: تم إنشاء عنصر واجهة مفقود تلقائياً:', id);
+  return el;
+}
+function setRoomText(id, value, tag='div', parentId='room'){
+  const el=ensureRoomElement(id,tag,parentId);
+  if(el) el.textContent=value;
+  return el;
+}
+function openRoom(){
+  if(!currentRoom){
+    toast('اختر غرفة أولاً');
+    return;
+  }
+  setRoomText('roomTitle',currentRoom.name,'h1');
+  setRoomText('roomCode',currentRoom.code,'b');
+  setRoomText('roomType',currentRoom.type==='private'?'خاصة':'عامة','span');
+  setRoomText('infoType',currentRoom.type==='private'?'خاصة':'عامة','b');
+  setRoomText('memberName',currentUser,'b');
+  const members=ensureRoomElement('members','div','room');
+  if(members) members.innerHTML=`<div class="member"><div class="avatar">${escapeHtml((currentUser||'ض').charAt(0))}</div><div><b>${escapeHtml(currentUser)}</b><div class="tiny">مضيف الغرفة</div></div></div>`;
+  setRoomText('memberCount','1','span');
+  const messages=ensureRoomElement('messages','div','room');
+  if(messages) messages.innerHTML='<div class="msg"><div class="who">FOREVER</div>أهلاً بالجميع! استمتعوا بالمشاهدة ✨</div>';
+  go('room');
+}
+function renderRooms(){
+  const list=rooms.filter(r=>r.type==='public');
+  $('publicRooms').innerHTML=list.length?list.map(r=>`<div class="panel room-card"><div style="min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>🎬 ${escapeHtml(r.name)}</b><span class="pill">● مفتوحة</span></div><div class="tiny" style="margin-top:5px">المضيف: ${escapeHtml(r.host)} · 👥 ${Number(r.members)||1} ${Number(r.members)===1?'عضو':'أعضاء'}</div></div><button class="primary small" onclick="joinRoom('${r.code}')">انضمام ←</button></div>`).join(''):'<div class="panel muted">ما في غرف عامة حالياً. أنشئ أول غرفة وخلي أصحابك ينضمّوا! ✨</div>';
+}
+function openJoin(){modal(`<h2>الانضمام إلى غرفة</h2><p class="muted">أدخل رمز الغرفة المكوّن من 6 أرقام.</p><input id="joinCode" inputmode="numeric" maxlength="6" placeholder="000000"><div class="modal-actions"><button class="primary" onclick="joinFromModal()">انضمام</button><button onclick="closeModal()">إلغاء</button></div>`)}
+function joinFromModal(){joinRoom(($('joinCode').value||'').trim())}
+function joinRoom(code){const r=rooms.find(x=>x.code===code);if(!r){toast('لم نعثر على غرفة بهذا الرمز');return}currentRoom=r;closeModal();openRoom()}
+function leaveRoom(){
+  // Stop room music immediately before leaving, for both MP3 and YouTube.
+  musicStopForRoomExit();
+  // Stop any local media stream and clear overlays before returning to dashboard.
+  const stage=$('videoStage');
+  if(stage){
+    const video=stage.querySelector('video');
+    if(video && video.srcObject){
+      video.srcObject.getTracks().forEach(track=>track.stop());
+    }
+    stage.innerHTML='<div class="video-placeholder"><div class="bigplay">▷</div><h2 id="videoTitle">مساحة المشاهدة الخاصة بك</h2><p class="muted">أضف رابط فيديو أو شارك الشاشة مع الموجودين بالغرفة</p></div>';
+  }
+  if($('modalHost')) $('modalHost').innerHTML='';
+  document.querySelectorAll('.modal-back').forEach(el=>el.remove());
+  currentRoom=null;
+  isPlaying=false;
+  isMuted=false;
+  if(micStream){micStream.getTracks().forEach(track=>track.stop());micStream=null;}
+  isMic=false;
+  renderRooms();
+  go('dashboard');
+  const dashboard=$('dashboard');
+  if(dashboard){
+  dashboard.style.pointerEvents='auto';
+  dashboard.style.visibility='visible';
+  dashboard.querySelectorAll('button').forEach(button=>{
+    button.disabled=false;
+    button.style.pointerEvents='auto';
+  });
+  }
+}
+async function copyCode(){
+  if(!currentRoom)return;
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(currentRoom.code);
+      toast('تم نسخ الرمز: '+currentRoom.code);
+    }else{
+      toast('رمز الغرفة: '+currentRoom.code);
+    }
+  }catch(e){toast('رمز الغرفة: '+currentRoom.code)}
+}
+function modal(content){$('modalHost').innerHTML=`<div class="modal-back" onclick="if(event.target===this)closeModal()"><div class="modal">${content}</div></div>`}
+function closeModal(){$('modalHost').innerHTML=''}
+function toast(msg){$('toastHost').innerHTML=`<div class="toast">${escapeHtml(msg)}</div>`;setTimeout(()=>$('toastHost').innerHTML='',2600)}
+function sendMessage(e){e.preventDefault();const v=$('chatInput').value.trim();if(!v)return;const el=document.createElement('div');el.className='msg me';el.innerHTML=`<div class="who">${escapeHtml(currentUser)} · الآن</div>${escapeHtml(v)}`;$('messages').appendChild(el);$('chatInput').value='';$('messages').scrollTop=$('messages').scrollHeight}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function togglePlay(){isPlaying=!isPlaying;toast(isPlaying?'تشغيل تجريبي':'إيقاف تجريبي')}
+function micCue(opening){
+  // A short local sound confirms microphone on/off; it does not transmit audio.
+  try{
+    const Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx)return;
+    const ctx=new Ctx();
+    const osc=ctx.createOscillator(), gain=ctx.createGain();
+    osc.type='sine';
+    osc.frequency.setValueAtTime(opening?880:520,ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(opening?1175:330,ctx.currentTime+0.12);
+    gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.12,ctx.currentTime+0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.18);
+    osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+0.19);
+    osc.onended=()=>ctx.close();
+  }catch(e){/* Sound cue is optional if browser audio is unavailable. */}
+}
+async function toggleControl(btn){
+  if(btn.id==='micBtn'){
+    if(!isMic){
+      try{
+        if(!navigator.mediaDevices?.getUserMedia)throw new Error('unsupported');
+        if(!currentRoom)throw new Error('room');
+        if(!foreverCloudReady||!foreverSignalChannel)throw new Error('signal');
+        if(!micStream||!micStream.getAudioTracks().some(track=>track.readyState==='live')){
+          micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+        }
+        micStream.getAudioTracks().forEach(track=>{track.enabled=true;foreverRtcAddTrack(track,micStream)});
+        isMic=true;btn.classList.add('active');btn.innerHTML='🎙<br><span class="tiny">المايك مفتوح</span>';
+        micCue(true);toast('المايك مفتوح — صوتك متصل بالغرفة');
+      }catch(e){console.error('FOREVER microphone:',e);toast(e.message==='room'?'ادخل غرفة أولاً':(e.message==='signal'?'انتظر اتصال الغرفة ثم جرّب المايك مرة ثانية':(e.name==='NotAllowedError'?'اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح':'ما قدرنا نفتح المايك. تأكد من صلاحية الميكروفون والاتصال الآمن HTTPS.')));}
+    }else{
+      if(micStream)micStream.getAudioTracks().forEach(track=>{track.enabled=false;});
+      isMic=false;btn.classList.remove('active');btn.innerHTML='🎙<br><span class="tiny">المايك</span>';
+      micCue(false);toast('تم كتم المايك');
+    }
+    return;
+  }
+  btn.classList.toggle('active');
+  if(btn.id==='muteBtn'){
+    isMuted=!isMuted;
+    btn.innerHTML=(isMuted?'🔇':'♬')+'<br><span class="tiny">'+(isMuted?'الصوت مكتوم':'الصوت')+'</span>';
+    const media=$('videoStage')?.querySelector('video,audio');if(media)media.muted=isMuted;
+    document.querySelectorAll('#remoteMediaGrid video,#remoteMediaGrid audio').forEach(el=>el.muted=isMuted);
+    if(musicPlayer&&musicReady){if(isMuted)musicPlayer.mute();else musicPlayer.unMute();musicMuted=isMuted;}
+    toast(isMuted?'تم كتم الصوت':'تم تشغيل الصوت');
+  }
+}
+function toggleFullscreen(){const el=$('videoStage');if(el.requestFullscreen)el.requestFullscreen()}
+function openVideo(){modal(`<h2>إضافة فيديو</h2><p class="muted">أدخل رابط فيديو مباشر أو رابط ملف MP4.</p><input id="videoUrl" placeholder="https://example.com/video.mp4"><div class="modal-actions"><button class="primary" onclick="loadVideo()">إضافة الفيديو</button><button onclick="closeModal()">إلغاء</button></div><p class="tiny">قد لا تعمل روابط YouTube مباشرة داخل مشغل HTML. يلزم تضمين YouTube API لدعمها.</p>`)}
+function loadVideo(){const url=$('videoUrl').value.trim();if(!url)return toast('أدخل رابط الفيديو أولاً');if(!/^https?:\/\//i.test(url))return toast('الرابط غير صالح');$('videoStage').innerHTML=`<video controls autoplay playsinline style="width:100%;height:100%;max-height:500px;background:#000" src="${escapeHtml(url)}"></video>`;closeModal();toast('تمت إضافة الفيديو لهذا العرض التجريبي')}
+async function shareScreen(){
+  if(!currentRoom)return toast('ادخل غرفة أولاً');
+  if(!foreverCloudReady||!foreverSignalChannel)return toast('انتظر اتصال الغرفة ثم جرّب مشاركة الشاشة');
+  if(!navigator.mediaDevices?.getDisplayMedia)return toast('مشاركة الشاشة تحتاج كمبيوتر ومتصفحاً يدعمها. افتح الموقع عبر HTTPS.');
+  try{
+    const stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:{ideal:20,max:30}},audio:true});
+    foreverScreenStream=stream;
+    stream.getTracks().forEach(track=>foreverRtcAddTrack(track,stream));
+    const stage=$('videoStage');stage.innerHTML='';
+    const v=document.createElement('video');v.srcObject=stream;v.autoplay=true;v.muted=true;v.playsInline=true;v.style='width:100%;height:100%;max-height:500px;object-fit:contain;background:#000';stage.appendChild(v);v.play().catch(()=>{});
+    toast('بدأت مشاركة الشاشة — ستظهر عند أعضاء الغرفة');
+    stream.getTracks().forEach(track=>track.addEventListener('ended',()=>{if(track.kind==='video')foreverStopScreenShare();}));
+  }catch(e){console.error('FOREVER screen share:',e);toast('تم إلغاء مشاركة الشاشة أو رفض الإذن');}
+}
+function toggleLang(){lang=lang==='ar'?'en':'ar';document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';toast(lang==='en'?'English layout direction enabled':'تم تفعيل اتجاه العربية')}
+document.addEventListener('click', function(event){
+  const button=event.target.closest('[data-forever-action]');
+  if(!button || button.disabled) return;
+  const action=button.getAttribute('data-forever-action');
+  if(action==='create-room') openCreateRoom();
+  else if(action==='create-public') openCreateRoom();
+  else if(action==='create-private') { openCreateRoom(); setTimeout(()=>{if($('newRoomType'))$('newRoomType').value='private'},0); }
+  else if(action==='open-join') openJoin();
+});
+
+
+// FOREVER MUSIC - official YouTube IFrame Player
+let musicQueue=[], musicIndex=-1, musicPlayer=null, musicReady=false, musicMuted=false;
+function musicVideoId(raw){
+ try{const u=new URL(raw);let id='';if(u.hostname.includes('youtu.be'))id=u.pathname.split('/').filter(Boolean)[0]||'';else if(u.searchParams.get('v'))id=u.searchParams.get('v');else {const m=u.pathname.match(/\/(?:embed|shorts|live)\/([\w-]{11})/);if(m)id=m[1]}return /^[\w-]{11}$/.test(id)?id:null}catch(e){return null}
+}
+function musicLoadApi(){if(window.YT&&window.YT.Player){musicCreatePlayer();return}if(!document.getElementById('yt-music-api')){const s=document.createElement('script');s.id='yt-music-api';s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s)}const previous=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=function(){if(typeof previous==='function')previous();musicCreatePlayer()}}
+function musicCreatePlayer(){if(musicPlayer||!$('musicPlayerHost'))return;$('musicPlayerHost').innerHTML='<div id="foreverYTPlayer"></div>';musicPlayer=new YT.Player('foreverYTPlayer',{width:'100%',height:'170',videoId:musicQueue[musicIndex]?.id||'',playerVars:{playsinline:1,rel:0,origin:location.origin},events:{onReady:()=>{musicReady=true;if(musicIndex>=0&&currentRoom)musicPlayIndex(musicIndex)},onStateChange:e=>{if(e.data===YT.PlayerState.ENDED&&currentRoom)musicNext()},onError:e=>{musicStatus('هذا الفيديو لا يسمح بالتشغيل داخل المواقع (رمز '+e.data+')')}}})}
+function musicStatus(s){if($('musicStatus'))$('musicStatus').textContent=s}
+function musicIsMp3(raw){
+ // Accept direct audio-file URLs even when the host hides the .mp3 extension.
+ try{const u=new URL(raw);return /^https?:$/.test(u.protocol)}catch(e){return false}
+}
+function musicAdd(){
+ const input=$('musicUrl'),raw=input.value.trim();
+ if(!/^https?:\/\//i.test(raw)){toast('أدخل رابطاً يبدأ بـ https:// أو http://');return}
+ const id=musicVideoId(raw),isMp3=musicIsMp3(raw);
+ if(!id&&!isMp3){toast('الرابط غير صحيح. استخدم رابط YouTube أو رابط ملف MP3 مباشر');return}
+ let fileTitle='أغنية MP3';try{fileTitle=decodeURIComponent(new URL(raw).pathname.split('/').pop()||'أغنية MP3')}catch(e){}
+ const song=isMp3?{type:'mp3',url:raw,title:fileTitle}:{type:'youtube',id,title:'فيديو YouTube '+(musicQueue.filter(x=>x.type!=='mp3').length+1),url:raw};
+ musicQueue.push(song);input.value='';musicRenderQueue();
+ if(musicIndex<0){musicIndex=musicQueue.length-1;musicPlayIndex(musicIndex)}else toast('تمت إضافة الأغنية للقائمة');
+}
+function musicStopCurrent(){
+ if(musicPlayer&&musicReady){try{musicPlayer.stopVideo()}catch(e){}}
+ const old=$('foreverMP3Player');if(old){old.pause();old.removeAttribute('src');old.load()}
+}
+function musicStopForRoomExit(){
+ // Invalidate pending autoplay callbacks before stopping/destroying players.
+ musicIndex=-1;
+ const audio=$('foreverMP3Player');
+ if(audio){try{audio.pause();audio.currentTime=0;audio.removeAttribute('src');audio.load()}catch(e){}}
+ if(musicPlayer){
+  try{if(musicReady)musicPlayer.stopVideo()}catch(e){}
+  try{musicPlayer.destroy()}catch(e){}
+ }
+ musicPlayer=null;musicReady=false;
+ const host=$('musicPlayerHost');
+ if(host)host.innerHTML='<div class="music-empty"><div><div class="note">♫</div><b>الموسيقى متوقفة — ارجع للغرفة لتشغيلها</b></div></div>';
+ if($('musicNow'))$('musicNow').textContent='لا توجد أغنية تعمل حالياً';
+ musicStatus('تم إيقاف الموسيقى عند مغادرة الغرفة');
+ musicRenderQueue();
+}
+function musicPlayIndex(i){
+ if(!musicQueue.length)return;
+ musicIndex=(i+musicQueue.length)%musicQueue.length;
+ const song=musicQueue[musicIndex];musicStopCurrent();
+ if(song.type==='mp3'){
+  if(musicPlayer&&musicReady){try{musicPlayer.pauseVideo()}catch(e){}}
+  $('musicPlayerHost').innerHTML='<audio id="foreverMP3Player" controls autoplay playsinline preload="auto" style="width:100%;height:54px;border-radius:12px;background:#fff"></audio>';
+  const audio=$('foreverMP3Player');audio.muted=musicMuted;audio.src=song.url;
+  audio.addEventListener('canplay',()=>{musicStatus('MP3 · يعمل الآن')},{once:true});
+  audio.addEventListener('error',()=>{musicStatus('تعذّر تحميل الملف. تأكد أن الرابط مباشر ويعمل بصيغة MP3')},{once:true});
+  audio.addEventListener('ended',()=>{if(currentRoom)musicNext()});
+  audio.load();
+  const playAttempt=audio.play();if(playAttempt&&playAttempt.catch)playAttempt.catch(()=>musicStatus('اضغط زر ▶ داخل مشغّل الصوت لبدء الأغنية'));
+  $('musicStatus').textContent='MP3 · '+(musicIndex+1)+' / '+musicQueue.length;
+ }else{
+  $('musicPlayerHost').innerHTML='<div id="foreverYTPlayer"></div>';
+  if(musicPlayer){musicPlayer=null;musicReady=false}
+  musicLoadApi();
+  if(musicReady&&musicPlayer){musicPlayer.loadVideoById(song.id);musicPlayer.playVideo()}
+  $('musicStatus').textContent='YouTube · '+(musicIndex+1)+' / '+musicQueue.length;
+ }
+ $('musicNow').textContent=song.title;musicRenderQueue();
+}
+function musicToggle(){
+ if(musicIndex<0||!musicQueue.length){toast('أضف رابط أغنية أولاً');return}
+ const song=musicQueue[musicIndex];
+ if(song.type==='mp3'){const a=$('foreverMP3Player');if(!a)return;if(a.paused)a.play().catch(()=>toast('اضغط تشغيل للسماح بالصوت'));else a.pause();return}
+ musicLoadApi();if(!musicReady){toast('جاري تجهيز مشغّل YouTube');return}const state=musicPlayer.getPlayerState();if(state===YT.PlayerState.PLAYING)musicPlayer.pauseVideo();else musicPlayer.playVideo()
+}
+function musicNext(){if(musicQueue.length)musicPlayIndex((musicIndex+1)%musicQueue.length)}
+function musicPrev(){if(musicQueue.length)musicPlayIndex((musicIndex-1+musicQueue.length)%musicQueue.length)}
+function musicMute(){musicMuted=!musicMuted;const a=$('foreverMP3Player');if(a)a.muted=musicMuted;if(musicPlayer&&musicReady){if(musicMuted)musicPlayer.mute();else musicPlayer.unMute()}toast(musicMuted?'تم كتم الصوت':'تم تشغيل الصوت')}
+function musicRemove(i){musicQueue.splice(i,1);if(!musicQueue.length){musicIndex=-1;musicStopCurrent();$('musicPlayerHost').innerHTML='<div class="music-empty"><div><div class="note">♫</div><b>أضف أغنيتك من YouTube أو MP3</b></div></div>';$('musicNow').textContent='لا توجد أغنية حالياً';musicStatus('YouTube / MP3 · FOREVER MUSIC')}else if(i===musicIndex){musicIndex=Math.min(i,musicQueue.length-1);musicPlayIndex(musicIndex)}else if(i<musicIndex)musicIndex--;musicRenderQueue()}
+function musicClear(){musicQueue=[];musicIndex=-1;musicStopCurrent();$('musicPlayerHost').innerHTML='<div class="music-empty"><div><div class="note">♫</div><b>أضف أغنيتك من YouTube أو MP3</b></div></div>';$('musicNow').textContent='لا توجد أغنية حالياً';musicStatus('YouTube / MP3 · FOREVER MUSIC');musicRenderQueue()}
+function musicRenderQueue(){const box=$('musicQueue');if(!box)return;box.innerHTML=musicQueue.map((s,i)=>`<div class="music-item ${i===musicIndex?'active':''}"><span>♫</span><span class="song-name">${escapeHtml(s.title)}</span><button onclick="musicPlayIndex(${i})">▶</button><button onclick="musicRemove(${i})">×</button></div>`).join('')}
+
+
+/* ================= FOREVER CLOUD PATCH v2 =================
+   Uses Supabase Publishable/anon key only. Without a key the app
+   remains usable in local demo mode; cloud rooms need Supabase setup.
+============================================================= */
+const FOREVER_SUPABASE_URL = 'https://rtmkqlxowejhystolfax.supabase.co';
+let foreverSupabase = null, foreverChannel = null, foreverPresence = null;
+let foreverCloudReady = false, foreverRoomState = {};
+let foreverSubscribedCode = null;
+const foreverSessionId = (window.crypto?.randomUUID?.() || ('fs-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)));
+let foreverJoinAudioContext = null;
+// Direct peer-to-peer media transport (screen + microphone).
+let foreverSignalChannel=null, foreverScreenStream=null;
+const foreverRtcPeers=new Map(), foreverRtcRemoteStreams=new Map(), foreverRtcCandidateQueues=new Map();
+let foreverRtcHelloSent=false;
+const foreverRtcConfig={iceServers:[
+  {urls:'stun:stun.relay.metered.ca:80'},
+  {urls:'turn:global.relay.metered.ca:80',username:'5ed3e3044f8a7a93a8a55338',credential:'iEPtJnhg2FcFPMuE'},
+  {urls:'turn:global.relay.metered.ca:80?transport=tcp',username:'5ed3e3044f8a7a93a8a55338',credential:'iEPtJnhg2FcFPMuE'},
+  {urls:'turn:global.relay.metered.ca:443',username:'5ed3e3044f8a7a93a8a55338',credential:'iEPtJnhg2FcFPMuE'},
+  {urls:'turns:global.relay.metered.ca:443?transport=tcp',username:'5ed3e3044f8a7a93a8a55338',credential:'iEPtJnhg2FcFPMuE'}
+]};
+
+let foreverRemoteApplying = false, foreverLastStateWrite = 0;
+let foreverPublicRefreshTimer = null;
+
+function foreverGetKey(){
+  return (localStorage.getItem('forever_supabase_publishable_key') || '').trim();
+}
+function foreverBackendStatus(){
+  return foreverCloudReady ? 'متصل بـ Supabase' : (foreverGetKey() ? 'جاري الاتصال بـ Supabase…' : 'وضع تجريبي محلي — أضف Publishable Key للغرف بين الأجهزة');
+}
+function foreverLoadSupabase(){
+  return new Promise((resolve,reject)=>{
+    if(window.supabase?.createClient){resolve();return;}
+    const old=document.getElementById('forever-supabase-sdk');
+    if(old){old.addEventListener('load',resolve,{once:true});old.addEventListener('error',reject,{once:true});return;}
+    const script=document.createElement('script');
+    script.id='forever-supabase-sdk';
+    script.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.onload=resolve;script.onerror=()=>reject(new Error('تعذر تحميل مكتبة Supabase'));
+    document.head.appendChild(script);
+  });
+}
+async function foreverInitCloud(){
+  const key=foreverGetKey();
+  if(!key){foreverCloudReady=false;return false;}
+  try{
+    await foreverLoadSupabase();
+    foreverSupabase=window.supabase.createClient(FOREVER_SUPABASE_URL,key,{
+      realtime:{params:{eventsPerSecond:10}},
+      auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}
+    });
+    const {error}=await foreverSupabase.from('forever_rooms').select('code').limit(1);
+    if(error) throw error;
+    foreverCloudReady=true;
+    renderRooms();
+    return true;
+  }catch(err){
+    foreverCloudReady=false;
+    console.error('FOREVER Supabase connection:',err);
+    toast('تعذر الاتصال بـ Supabase: '+(err.message||'تحقق من المفتاح والجداول'));
+    return false;
+  }
+}
+function foreverOpenSettings(){
+  modal(`<h2>إعداد اتصال FOREVER</h2>
+    <p class="muted">أدخل Publishable Key الخاص بمشروعك. لا تضع Secret أو Service Role Key هنا.</p>
+    <label class="tiny" for="foreverPublishableKey">Supabase Publishable Key</label>
+    <input id="foreverPublishableKey" type="password" autocomplete="off" placeholder="sb_publishable_..." value="${escapeHtml(foreverGetKey())}">
+    <p class="tiny">رابط المشروع مضبوط مسبقاً: ${FOREVER_SUPABASE_URL}</p>
+    <div class="modal-actions"><button class="primary" onclick="foreverSaveSettings()">حفظ والاتصال</button><button class="ghost" onclick="closeModal()">إلغاء</button></div>`);
+}
+async function foreverSaveSettings(){
+  const key=($('foreverPublishableKey')?.value||'').trim();
+  if(!key){toast('أدخل Publishable Key أولاً');return;}
+  if(!/^(sb_publishable_[A-Za-z0-9_-]+|eyJ[A-Za-z0-9._-]+)$/.test(key)){
+    toast('يبدو أن المفتاح ليس Publishable/anon Key صالحاً');return;
+  }
+  localStorage.setItem('forever_supabase_publishable_key',key);
+  closeModal();
+  await foreverInitCloud();
+  if(foreverCloudReady){
+    toast('تم الاتصال بنجاح بـ Supabase');
+    if(currentRoom) foreverSubscribeRoom(currentRoom.code);
+  }
+}
+async function foreverCloudCreateRoom(room){
+  if(!foreverCloudReady)return room;
+  const row={code:room.code,name:room.name,room_type:room.type,host:room.host};
+  const {error}=await foreverSupabase.from('forever_rooms').insert(row);
+  if(error)throw error;
+  return room;
+}
+async function foreverFetchRooms(){
+  if(!foreverCloudReady)return;
+  const {data,error}=await foreverSupabase.from('forever_rooms')
+    .select('code,name,room_type,host,created_at').eq('room_type','public')
+    .order('created_at',{ascending:false}).limit(100);
+  if(error){console.error(error);return;}
+  const cloud=(data||[]).map(x=>({code:x.code,name:x.name,type:x.room_type,host:x.host,members:1,createdAt:new Date(x.created_at).getTime(),cloud:true}));
+  const local=rooms.filter(x=>!x.cloud && x.type==='public');
+  rooms.splice(0,rooms.length,...cloud,...local.filter(x=>!cloud.some(c=>c.code===x.code)));
+  const list=$('publicRooms');
+  if(list) list.innerHTML=rooms.filter(r=>r.type==='public').map(r=>`<div class="panel room-card"><div style="min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>🎬 ${escapeHtml(r.name)}</b><span class="pill">● مفتوحة</span></div><div class="tiny" style="margin-top:5px">المضيف: ${escapeHtml(r.host)} · 👥 ${Number(r.members)||1} أعضاء</div></div><button class="primary small" onclick="joinRoom('${r.code}')">انضمام ←</button></div>`).join('')||'<div class="panel muted">ما في غرف عامة حالياً. أنشئ أول غرفة وخلي أصحابك ينضمّوا! ✨</div>';
+}
+function foreverUnsubscribe(){
+  if(foreverChannel && foreverSupabase){foreverSupabase.removeChannel(foreverChannel).catch(()=>{});}
+  foreverChannel=null;foreverSignalChannel=null;foreverPresence=null;foreverSubscribedCode=null;
+}
+function foreverPrepareJoinAudio(){
+  try{
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtx)return;
+    if(!foreverJoinAudioContext)foreverJoinAudioContext=new AudioCtx();
+    if(foreverJoinAudioContext.state==='suspended'){
+      // Called from a real user gesture (entering the app / tapping the page).
+      const resumed=foreverJoinAudioContext.resume();
+      if(resumed&&resumed.catch)resumed.catch(()=>{});
+    }
+  }catch(e){console.warn('FOREVER join sound unavailable:',e);}
+}
+function foreverPlayJoinSound(){
+  try{
+    const ctx=foreverJoinAudioContext;
+    if(!ctx)return;
+    const play=()=>{
+      const now=ctx.currentTime;
+      [740,988].forEach((frequency,index)=>{
+        const start=now+index*.14;
+        const osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.type='sine';osc.frequency.setValueAtTime(frequency,start);
+        gain.gain.setValueAtTime(.0001,start);
+        gain.gain.exponentialRampToValueAtTime(.14,start+.02);
+        gain.gain.exponentialRampToValueAtTime(.0001,start+.28);
+        osc.connect(gain);gain.connect(ctx.destination);
+        osc.start(start);osc.stop(start+.29);
+      });
+    };
+    if(ctx.state==='suspended'){
+      ctx.resume().then(()=>{if(ctx.state==='running')play();}).catch(()=>{});
+    }else if(ctx.state==='running')play();
+  }catch(e){console.warn('FOREVER join sound blocked:',e);}
+}
+// Prime audio again on the first deliberate touch/click, especially on mobile Safari/Chrome.
+document.addEventListener('pointerdown',function(){foreverPrepareJoinAudio();},{once:true,passive:true});
+function foreverRtcSend(to,kind,data={}){
+  if(!foreverSignalChannel)return;
+  foreverSignalChannel.send({type:'broadcast',event:'rtc-signal',payload:{from:foreverSessionId,to,kind,data}}).catch(e=>console.warn('FOREVER signal send:',e));
+}
+function foreverRtcRenderPeer(peerId,stream){
+  const grid=$('remoteMediaGrid');if(!grid)return;
+  let card=document.getElementById('rtc-peer-'+peerId);
+  if(!card){
+    card=document.createElement('div');card.className='remote-media-card';card.id='rtc-peer-'+peerId;
+    const title=document.createElement('div');title.className='remote-media-title';title.textContent='عضو متصل';
+    card.appendChild(title);grid.appendChild(card);
+  }
+  // Keep screen video and microphone audio in separate elements. A muted
+  // video element must never swallow the incoming microphone audio track.
+  const videoTrack=stream.getVideoTracks().find(t=>t.readyState==='live');
+  const audioTrack=stream.getAudioTracks().find(t=>t.readyState==='live');
+  let video=card.querySelector('video');
+  if(videoTrack){
+    if(!video){
+      video=document.createElement('video');
+      video.autoplay=true;video.playsInline=true;video.controls=true;video.muted=true;
+      video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');
+      video.style.cssText='display:block;width:100%;height:auto;min-height:180px;max-height:70vh;aspect-ratio:16/9;object-fit:contain;background:#000;border-radius:8px;touch-action:pan-y';
+      card.appendChild(video);
+    }
+    if(video.srcObject!==stream)video.srcObject=stream;
+    video.play().catch(()=>{const title=card.querySelector('.remote-media-title');if(title)title.textContent='اضغط على الفيديو لتشغيل مشاركة الشاشة';});
+  }else if(video){video.pause();video.srcObject=null;video.remove();}
+  let audio=card.querySelector('audio');
+  if(audioTrack){
+    if(!audio){audio=document.createElement('audio');audio.autoplay=true;audio.controls=true;audio.playsInline=true;audio.style.cssText='display:block;width:100%;margin-top:8px';card.appendChild(audio);}
+    if(audio.srcObject!==stream)audio.srcObject=stream;
+    audio.muted=!!isMuted;
+    audio.play().catch(()=>{const title=card.querySelector('.remote-media-title');if(title)title.textContent='الصوت جاهز — اضغط تشغيل الصوت';});
+  }else if(audio){audio.pause();audio.srcObject=null;audio.remove();}
+  if(!videoTrack&&!audioTrack){const title=card.querySelector('.remote-media-title');if(title)title.textContent='اتصال عضو — بانتظار الوسائط';}
+}
+function foreverRtcCreatePeer(peerId){
+  if(foreverRtcPeers.has(peerId))return foreverRtcPeers.get(peerId);
+  const pc=new RTCPeerConnection(foreverRtcConfig);
+  const remoteStream=new MediaStream();
+  foreverRtcPeers.set(peerId,pc);foreverRtcRemoteStreams.set(peerId,remoteStream);
+  pc.ontrack=event=>{
+    const incoming=event.track;
+    if(!remoteStream.getTracks().some(t=>t.id===incoming.id))remoteStream.addTrack(incoming);
+    foreverRtcRenderPeer(peerId,remoteStream);
+    incoming.addEventListener('ended',()=>{
+      if(incoming.kind==='video'&&!remoteStream.getVideoTracks().some(t=>t.readyState==='live')){
+        const card=document.getElementById('rtc-peer-'+peerId);const video=card?.querySelector('video');if(video)video.remove();
+      }
+    });
+  };
+  pc.onicecandidate=event=>{if(event.candidate)foreverRtcSend(peerId,'candidate',event.candidate.toJSON?event.candidate.toJSON():event.candidate)};
+  pc.onconnectionstatechange=()=>{
+    if(pc.connectionState==='failed'){
+      console.warn('FOREVER peer connection failed:',peerId);
+      toast('تعذر ربط الصوت/الشاشة مع أحد الأجهزة. جرّب إعادة الدخول للغرفة.');
+    }
+    if(pc.connectionState==='closed'||pc.connectionState==='failed'){
+      const card=document.getElementById('rtc-peer-'+peerId);if(card)card.remove();
+    }
+  };
+  pc._makingOffer=false;pc._ignoreOffer=false;pc._isSettingRemoteAnswerPending=false;
+  pc.onnegotiationneeded=async()=>{
+    try{
+      pc._makingOffer=true;
+      await pc.setLocalDescription();
+      foreverRtcSend(peerId,'description',pc.localDescription.toJSON());
+    }catch(e){console.warn('FOREVER negotiation:',e);}
+    finally{pc._makingOffer=false;}
+  };
+  // Add tracks already active when this peer appears.
+  [micStream,foreverScreenStream].filter(Boolean).forEach(stream=>stream.getTracks().forEach(track=>{
+    if(track.readyState==='live'&&!pc.getSenders().some(sender=>sender.track?.id===track.id))pc.addTrack(track,stream);
+  }));
+  return pc;
+}
+function foreverRtcAddTrack(track,stream){
+  foreverRtcPeers.forEach(pc=>{
+    if(!pc.getSenders().some(sender=>sender.track?.id===track.id)){
+      try{pc.addTrack(track,stream)}catch(e){console.warn('FOREVER add track:',e)}
+    }
+  });
+}
+async function foreverRtcHandleSignal(payload){
+  if(!payload|| (payload.to&&payload.to!==foreverSessionId) || !payload.from || payload.from===foreverSessionId)return;
+  const peerId=payload.from;
+  const pc=foreverRtcCreatePeer(peerId);
+  try{
+    if(payload.kind==='hello')return;
+    if(payload.kind==='description'){
+      const description=payload.data;
+      const polite=foreverSessionId>peerId;
+      const readyForOffer=!pc._makingOffer&&(pc.signalingState==='stable'||pc._isSettingRemoteAnswerPending);
+      const offerCollision=description.type==='offer'&&!readyForOffer;
+      pc._ignoreOffer=!polite&&offerCollision;
+      if(pc._ignoreOffer)return;
+      pc._isSettingRemoteAnswerPending=description.type==='answer';
+      if(offerCollision&&polite)await pc.setLocalDescription({type:'rollback'});
+      await pc.setRemoteDescription(description);
+      pc._isSettingRemoteAnswerPending=false;
+      const queued=foreverRtcCandidateQueues.get(peerId)||[];
+      foreverRtcCandidateQueues.delete(peerId);
+      for(const candidate of queued)try{await pc.addIceCandidate(candidate)}catch(e){if(!pc._ignoreOffer)console.warn('FOREVER queued ICE:',e)}
+      if(description.type==='offer'){
+        await pc.setLocalDescription();
+        foreverRtcSend(peerId,'description',pc.localDescription.toJSON());
+      }
+      return;
+    }
+    if(payload.kind==='candidate'&&payload.data){
+      if(pc.remoteDescription){try{await pc.addIceCandidate(payload.data)}catch(e){if(!pc._ignoreOffer)console.warn('FOREVER ICE candidate:',e)}}
+      else{const q=foreverRtcCandidateQueues.get(peerId)||[];q.push(payload.data);foreverRtcCandidateQueues.set(peerId,q)}
+    }
+  }catch(e){console.warn('FOREVER WebRTC signal:',e);}
+}
+function foreverRtcStopAll(){
+  foreverRtcPeers.forEach(pc=>{try{pc.close()}catch(e){}});foreverRtcPeers.clear();foreverRtcRemoteStreams.clear();foreverRtcCandidateQueues.clear();
+  if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}
+  if(foreverScreenStream){foreverScreenStream.getTracks().forEach(t=>t.stop());foreverScreenStream=null;}
+  const grid=$('remoteMediaGrid');if(grid)grid.innerHTML='';
+  isMic=false;const mic=$('micBtn');if(mic){mic.classList.remove('active');mic.innerHTML='🎙<br><span class="tiny">المايك</span>';}
+}
+function foreverStopScreenShare(){
+  if(foreverScreenStream){
+    foreverScreenStream.getTracks().forEach(track=>{
+      foreverRtcPeers.forEach(pc=>pc.getSenders().filter(sender=>sender.track?.id===track.id).forEach(sender=>{try{pc.removeTrack(sender)}catch(e){}}));
+      if(track.readyState==='live')track.stop();
+    });
+    foreverScreenStream=null;
+  }
+  const stage=$('videoStage');if(stage)stage.innerHTML='<div class="video-placeholder"><div class="bigplay">▷</div><h2>مساحة المشاهدة الخاصة بك</h2><p class="muted">أضف رابط فيديو أو شارك الشاشة مع الموجودين بالغرفة</p></div>';
+  toast('انتهت مشاركة الشاشة');
+}
+async function foreverSubscribeRoom(code){
+  if(!foreverCloudReady||!code)return;
+  if(foreverChannel && foreverSubscribedCode===code)return;
+  foreverUnsubscribe();
+  const channel=foreverSupabase.channel('forever-room-'+code,{config:{presence:{key:foreverSessionId},broadcast:{self:false,ack:false}}});
+  foreverSignalChannel=channel;
+  channel.on('broadcast',{event:'rtc-signal'},({payload})=>foreverRtcHandleSignal(payload));
+  foreverChannel=channel;foreverSubscribedCode=code;
+  channel.on('postgres_changes',{event:'INSERT',schema:'public',table:'forever_messages',filter:'room_code=eq.'+code},payload=>{
+    const m=payload.new;
+    if(m.user_name===currentUser && m.client_tag===window.foreverClientTag)return;
+    foreverAppendMessage(m.user_name,m.message,false);
+  });
+  channel.on('postgres_changes',{event:'*',schema:'public',table:'forever_room_state',filter:'room_code=eq.'+code},payload=>{
+    if(payload.new?.state) foreverApplyRoomState(payload.new.state);
+  });
+  channel.on('presence',{event:'sync'},()=>foreverRenderPresence(channel));
+  channel.on('presence',{event:'join'},({newPresences})=>{
+    foreverRenderPresence(channel);
+    const newcomers=(newPresences||[]).filter(p=>p.session_id && p.session_id!==foreverSessionId);
+    if(newcomers.length){
+      newcomers.forEach(person=>{if(person.session_id)foreverRtcSend(person.session_id,'hello')});
+      foreverPlayJoinSound();
+      const names=[...new Set(newcomers.map(p=>p.name).filter(Boolean))];
+      toast(names.length===1?'دخل '+names[0]+' الغرفة ✨':'انضم أعضاء جدد إلى الغرفة ✨');
+    }
+  });
+  channel.on('presence',{event:'leave'},({leftPresences})=>{
+    foreverRenderPresence(channel);
+    (leftPresences||[]).forEach(person=>{const id=person.session_id;if(!id)return;const pc=foreverRtcPeers.get(id);if(pc){try{pc.close()}catch(e){}foreverRtcPeers.delete(id);foreverRtcRemoteStreams.delete(id);foreverRtcCandidateQueues.delete(id);}const card=document.getElementById('rtc-peer-'+id);if(card)card.remove();});
+  });
+  channel.subscribe(async status=>{
+    if(status==='SUBSCRIBED'){
+      await channel.track({name:currentUser,session_id:foreverSessionId,joined_at:new Date().toISOString()});
+      // Announce this peer. Offers are generated when media tracks are added.
+      foreverRtcSend(null,'hello');
+      setTimeout(()=>{
+        const peers=Object.values(channel.presenceState()).flat().filter(p=>p.session_id&&p.session_id!==foreverSessionId);
+        peers.forEach(p=>foreverRtcSend(p.session_id,'hello'));
+      },700);
+      const {data:history,error:historyError}=await foreverSupabase.from('forever_messages')
+        .select('user_name,message,created_at').eq('room_code',code)
+        .order('created_at',{ascending:true}).limit(50);
+      if(!historyError && Array.isArray(history)){
+        const box=$('messages');if(box)box.innerHTML='';
+        history.forEach(m=>foreverAppendMessage(m.user_name,m.message,m.user_name===currentUser));
+      }
+      const {data}=await foreverSupabase.from('forever_room_state').select('state').eq('room_code',code).maybeSingle();
+      if(data?.state)foreverApplyRoomState(data.state);
+    }
+  });
+}
+function foreverRenderPresence(channel){
+  const state=channel.presenceState();
+  const sessions=Object.values(state).flat().filter(x=>x&&x.name);
+  // Count browser sessions, not distinct display names: two people may use the same name.
+  const unique=[...new Map(sessions.map((person,index)=>[person.session_id||person.presence_ref||('legacy-'+index),person])).values()];
+  const box=$('members');
+  if(box)box.innerHTML=unique.map(person=>{
+    const name=person.name||'ضيف';
+    const mine=person.session_id===foreverSessionId;
+    return `<div class="member"><div class="avatar">${escapeHtml(name.charAt(0)||'؟')}</div><div><b>${escapeHtml(name)}</b><div class="tiny">${mine?'أنت':'متصل الآن'}</div></div></div>`;
+  }).join('');
+  setRoomText('memberCount',String(unique.length),'span');
+}
+window.foreverClientTag=window.foreverClientTag||Math.random().toString(36).slice(2);
+function foreverAppendMessage(name,message,own){
+  const box=$('messages');if(!box)return;
+  const el=document.createElement('div');el.className='msg'+(own?' me':'');
+  const who=document.createElement('div');who.className='who';who.textContent=name+' · الآن';
+  const body=document.createElement('div');body.textContent=message;
+  el.append(who,body);box.appendChild(el);box.scrollTop=box.scrollHeight;
+}
+async function foreverSendMessage(message){
+  if(!foreverCloudReady||!currentRoom)return;
+  const {error}=await foreverSupabase.from('forever_messages').insert({
+    room_code:currentRoom.code,user_name:currentUser,message,client_tag:window.foreverClientTag
+  });
+  if(error){console.error(error);toast('تعذر إرسال الرسالة إلى الغرفة');}
+}
+async function foreverPublishState(patch){
+  if(!foreverCloudReady||!currentRoom||foreverRemoteApplying)return;
+  foreverRoomState={...foreverRoomState,...patch};
+  const now=Date.now();if(now-foreverLastStateWrite<350)return;
+  foreverLastStateWrite=now;
+  const {error}=await foreverSupabase.from('forever_room_state').upsert({
+    room_code:currentRoom.code,state:foreverRoomState,updated_at:new Date().toISOString()
+  },{onConflict:'room_code'});
+  if(error)console.error('FOREVER state sync:',error);
+}
+function foreverApplyRoomState(state){
+  // The room host is the source of playback state. Ignore database echoes
+  // of its own writes so the host player is never seeked by its own sync loop.
+  if(!state||foreverRemoteApplying)return;
+  if(currentRoom && currentRoom.host===currentUser)return;
+  foreverRemoteApplying=true;
+  try{
+    foreverRoomState=state;
+    if(state.musicQueue && Array.isArray(state.musicQueue)){
+      const changed=JSON.stringify(musicQueue)!==JSON.stringify(state.musicQueue);
+      if(changed){
+        musicQueue=state.musicQueue;musicIndex=Number.isInteger(state.musicIndex)?state.musicIndex:-1;
+        musicRenderQueue();
+        if(musicIndex>=0 && musicQueue[musicIndex]){
+          const song=musicQueue[musicIndex];
+          if(song.type==='mp3'){
+            const a=$('foreverMP3Player');
+            if(!a||a.src!==song.url)musicPlayIndex(musicIndex);
+            const current=$('foreverMP3Player');
+            if(current && Number.isFinite(state.musicTime))current.currentTime=state.musicTime+(state.musicPlaying&&state.musicTimestamp?Math.max(0,Date.now()-state.musicTimestamp)/1000:0);
+          }else{
+            if(!musicPlayer)musicLoadApi();
+            if(musicReady){
+              const currentId=musicPlayer.getVideoData()?.video_id;
+              if(currentId!==song.id)musicPlayer.loadVideoById({videoId:song.id,startSeconds:(state.musicTime||0)+(state.musicPlaying&&state.musicTimestamp?Math.max(0,Date.now()-state.musicTimestamp)/1000:0)});
+              else if(Number.isFinite(state.musicTime))musicPlayer.seekTo((state.musicTime||0)+(state.musicPlaying&&state.musicTimestamp?Math.max(0,Date.now()-state.musicTimestamp)/1000:0),true);
+              if(state.musicPlaying)musicPlayer.playVideo();else musicPlayer.pauseVideo();
+            }
+          }
+        }
+      }else if(musicIndex>=0 && musicQueue[musicIndex]?.type==='youtube' && musicReady){
+        const targetTime=(state.musicTime||0)+(state.musicPlaying&&state.musicTimestamp?Math.max(0,Date.now()-state.musicTimestamp)/1000:0);
+        const drift=Math.abs((musicPlayer.getCurrentTime()||0)-targetTime);
+        if(drift>0.65)musicPlayer.seekTo(targetTime,true);
+        if(state.musicPlaying)musicPlayer.playVideo();else musicPlayer.pauseVideo();
+      }else if(musicIndex>=0 && musicQueue[musicIndex]?.type==='mp3'){
+        const audio=$('foreverMP3Player');
+        if(audio && Number.isFinite(state.musicTime)){
+          const targetTime=state.musicTime+(state.musicPlaying&&state.musicTimestamp?Math.max(0,Date.now()-state.musicTimestamp)/1000:0);
+          const drift=Math.abs((audio.currentTime||0)-targetTime);
+          if(drift>0.65)audio.currentTime=targetTime;
+          if(state.musicPlaying && audio.paused)audio.play().catch(()=>{});
+          if(!state.musicPlaying && !audio.paused)audio.pause();
+        }
+      }
+    }
+    if(state.videoUrl && $('videoStage') && !$('videoStage').querySelector('video')){
+      const v=document.createElement('video');v.controls=true;v.playsInline=true;v.style='width:100%;height:100%;max-height:500px;background:#000';v.src=state.videoUrl;
+      $('videoStage').replaceChildren(v);
+    }
+  }catch(e){console.error('FOREVER apply state:',e)}
+  finally{foreverRemoteApplying=false;}
+}
+const foreverOriginalCreateRoom=createRoom;
+createRoom=async function(type='public',name=''){
+  if(type!=='public'&&type!=='private')type='public';
+  const r={code:code6(),type,name:(name||('غرفة '+currentUser)).slice(0,32),host:currentUser,members:1,createdAt:Date.now()};
+  try{
+    if(foreverCloudReady)await foreverCloudCreateRoom(r);
+    rooms.unshift(r);currentRoom=r;closeModal();renderRooms();openRoom();
+    if(!foreverCloudReady)toast('تم إنشاء الغرفة محلياً. أضف Publishable Key لتظهر على أجهزتك الأخرى.');
+  }catch(e){console.error(e);toast('فشل إنشاء الغرفة: '+(e.message||'تحقق من إعدادات Supabase'));}
+};
+joinRoom=async function(code){
+  code=String(code||'').trim();
+  if(!/^\d{6}$/.test(code)){toast('رمز الغرفة يجب أن يتكون من 6 أرقام');return;}
+  let r=rooms.find(x=>x.code===code);
+  if(foreverCloudReady){
+    let data=null, error=null;
+    // RPC allows an exact invite-code lookup for private rooms without exposing the whole rooms table.
+    const rpcResult=await foreverSupabase.rpc('forever_find_room_by_code',{p_code:code});
+    if(!rpcResult.error){
+      const found=Array.isArray(rpcResult.data)?rpcResult.data[0]:rpcResult.data;
+      if(found)data=found;
+    }else{
+      // Compatibility fallback for projects that have not installed the RPC yet.
+      const result=await foreverSupabase.from('forever_rooms').select('code,name,room_type,host,created_at').eq('code',code).maybeSingle();
+      data=result.data;error=result.error;
+    }
+    if(error){toast('تعذر البحث عن الغرفة: '+error.message);return;}
+    if(data)r={code:data.code,name:data.name,type:data.room_type,host:data.host,members:1,cloud:true};
+    else if(!r){toast('لم نعثر على غرفة بهذا الرمز');return;}
+  }
+  if(!r){toast('لم نعثر على غرفة بهذا الرمز');return;}
+  currentRoom=r;closeModal();openRoom();
+};
+const foreverOriginalRenderRooms=renderRooms;
+renderRooms=function(){foreverOriginalRenderRooms();if(foreverCloudReady)foreverFetchRooms();};
+const foreverOriginalOpenRoom=openRoom;
+openRoom=function(){foreverOriginalOpenRoom();if(foreverCloudReady&&currentRoom)foreverSubscribeRoom(currentRoom.code);};
+const foreverOriginalLeaveRoom=leaveRoom;
+leaveRoom=function(){foreverRtcStopAll();foreverUnsubscribe();foreverOriginalLeaveRoom();};
+const foreverOriginalSendMessage=sendMessage;
+sendMessage=function(e){
+  e.preventDefault();const v=$('chatInput').value.trim();if(!v)return;
+  foreverAppendMessage(currentUser,v,true);$('chatInput').value='';
+  if(foreverCloudReady)foreverSendMessage(v);
+};
+const foreverOriginalMusicAdd=musicAdd;
+musicAdd=function(){
+  const before=musicQueue.length;foreverOriginalMusicAdd();
+  if(musicQueue.length!==before)foreverPublishState({musicQueue,musicIndex,musicPlaying:true,musicTime:0,musicTimestamp:Date.now()});
+};
+const foreverOriginalMusicPlayIndex=musicPlayIndex;
+musicPlayIndex=function(i){
+  foreverOriginalMusicPlayIndex(i);
+  if(currentRoom)foreverPublishState({musicQueue,musicIndex,musicPlaying:true,musicTime:0,musicTimestamp:Date.now()});
+};
+const foreverOriginalMusicToggle=musicToggle;
+musicToggle=function(){
+  foreverOriginalMusicToggle();
+  if(currentRoom){
+    const a=$('foreverMP3Player');
+    const playing=musicQueue[musicIndex]?.type==='mp3' ? !!a&&!a.paused :
+      !!(musicReady&&musicPlayer&&musicPlayer.getPlayerState()===YT.PlayerState.PLAYING);
+    foreverPublishState({musicQueue,musicIndex,musicPlaying:playing,musicTime:a?.currentTime||((musicReady&&musicPlayer)?musicPlayer.getCurrentTime():0),musicTimestamp:Date.now()});
+  }
+};
+const foreverOriginalMusicNext=musicNext;
+musicNext=function(){foreverOriginalMusicNext();if(currentRoom)foreverPublishState({musicQueue,musicIndex,musicPlaying:true,musicTime:0,musicTimestamp:Date.now()});};
+const foreverOriginalMusicPrev=musicPrev;
+musicPrev=function(){foreverOriginalMusicPrev();if(currentRoom)foreverPublishState({musicQueue,musicIndex,musicPlaying:true,musicTime:0,musicTimestamp:Date.now()});};
+const foreverOriginalMusicClear=musicClear;
+musicClear=function(){foreverOriginalMusicClear();if(currentRoom)foreverPublishState({musicQueue:[],musicIndex:-1,musicPlaying:false,musicTime:0});};
+const foreverOriginalLoadVideo=loadVideo;
+loadVideo=function(){
+  const url=$('videoUrl')?.value.trim();foreverOriginalLoadVideo();
+  if(url&&currentRoom)foreverPublishState({videoUrl:url});
+};
+document.addEventListener('DOMContentLoaded',()=>{});
+window.addEventListener('beforeunload',foreverUnsubscribe);
+setTimeout(()=>{if(foreverGetKey())foreverInitCloud();else musicStatus('Local demo · أضف Publishable Key لتفعيل المزامنة');},250);
+setInterval(()=>{
+  if(!foreverCloudReady||!currentRoom||currentRoom.host!==currentUser||musicIndex<0)return;
+  const a=$('foreverMP3Player');
+  const playing=musicQueue[musicIndex]?.type==='mp3' ? !!a&&!a.paused :
+    !!(musicReady&&musicPlayer&&musicPlayer.getPlayerState()===YT.PlayerState.PLAYING);
+  const time=musicQueue[musicIndex]?.type==='mp3'?(a?.currentTime||0):((musicReady&&musicPlayer)?musicPlayer.getCurrentTime():0);
+  foreverPublishState({musicQueue,musicIndex,musicPlaying:playing,musicTime:time,musicTimestamp:Date.now()});
+},800);
+
+</script>
+</body></html>
